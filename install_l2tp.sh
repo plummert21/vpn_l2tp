@@ -71,6 +71,59 @@ ipsec_install () {
     systemctl enable strongswan-starter
 }
 
+l2tp_install () {
+    apt install xl2tpd -y
+    cp /etc/xl2tpd/xl2tpd.conf /etc/xl2tpd/xl2tpd.conf.old
+    echo "[global]" > /etc/xl2tpd/xl2tpd.conf
+    echo "port = 1701" >> /etc/xl2tpd/xl2tpd.conf
+    echo "auth file = /etc/ppp/chap-secrets" >> /etc/xl2tpd/xl2tpd.conf
+    echo "access control = no" >> /etc/xl2tpd/xl2tpd.conf
+    echo "[lns default]" >> /etc/xl2tpd/xl2tpd.conf
+    echo "exclusive = no" >> /etc/xl2tpd/xl2tpd.conf
+    echo "ip range = 10.10.0.10-10.10.0.20" >> /etc/xl2tpd/xl2tpd.conf
+    echo "hidden bit = no" >> /etc/xl2tpd/xl2tpd.conf
+    echo "local ip = $ip_serv" >> /etc/xl2tpd/xl2tpd.conf
+    echo "length bit = yes" >> /etc/xl2tpd/xl2tpd.conf
+    echo "require chap = yes" >> /etc/xl2tpd/xl2tpd.conf
+    echo "refuse pap = yes" >> /etc/xl2tpd/xl2tpd.conf
+    echo "require authentication = yes" >> /etc/xl2tpd/xl2tpd.conf
+    echo "name = srvl2tp" >> /etc/xl2tpd/xl2tpd.conf
+    echo "pppoptfile = /etc/ppp/options.xl2tpd" >> /etc/xl2tpd/xl2tpd.conf
+    echo "flow bit = yes" >> /etc/xl2tpd/xl2tpd.conf
+    systemctl restart xl2tpd
+    systemctl enable xl2tpd
+}
+
+ppp_install () {
+    echo "noccp" > /etc/ppp/options.xl2tpd
+    echo "auth" >> /etc/ppp/options.xl2tpd
+    echo "mtu 1410" >> /etc/ppp/options.xl2tpd
+    echo "mru 1410" >> /etc/ppp/options.xl2tpd
+    echo "nodefaultroute" >> /etc/ppp/options.xl2tpd
+    echo "noproxyarp" >> /etc/ppp/options.xl2tpd
+    echo "silent" >> /etc/ppp/options.xl2tpd
+    echo "asyncmap 0" >> /etc/ppp/options.xl2tpd
+    echo "hide-password" >> /etc/ppp/options.xl2tpd
+    echo "require-mschap-v2" >> /etc/ppp/options.xl2tpd
+    echo "ms-dns 8.8.8.8" >> /etc/ppp/options.xl2tpd
+    echo "ms-dns 8.8.4.4" >> /etc/ppp/options.xl2tpd
+    mkdir /var/log/xl2tpd
+    echo "logfile /var/log/xl2tpd/xl2tpd.log" >> /etc/ppp/options.xl2tpd
+    echo "debug" >> /etc/ppp/options.xl2tpd
+}
+
+add_user () {
+    cp /etc/ppp/chap-secrets /etc/ppp/chap-secrets.old
+    echo "Input LOGIN user VPN -> "
+    read USER
+    echo "Input PASS user VPN -> "
+    read PASS
+    echo "'$USER' srvl2tp '$PASS' *" > /etc/ppp/chap-secrets
+}
+
 #ipforwarding
 #iptables
 #ipsec_install
+#l2tp_install
+#ppp_install
+#add_user
