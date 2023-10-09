@@ -8,7 +8,7 @@ https://linuxconfig.org/ubuntu-20-04-download
 
 ### Установка:
 
-- Скачать скрипт командой `wget ...`
+- Скачать скрипт командой `wget https://raw.githubusercontent.com/plummert21/vpn_l2tp/main/install_l2tp.sh`
 
 - сделать файл исполняемым командой `chmod +x install_l2tp.sh`
 

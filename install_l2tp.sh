@@ -49,6 +49,26 @@ iptables () {
 
 ipsec_install () {
     apt install strongswan -y
+    cp /etc/ipsec.conf /etc/ipsec.conf.old
+    echo 'config setup' > /etc/ipsec.conf
+    echo '         charondebug="ike 2, knl 3, cfg 0, ike 1"'  >> /etc/ipsec.conf
+    echo '         uniqueids=no'  >> /etc/ipsec.conf
+    echo 'conn l2tp-vpn' >> /etc/ipsec.conf
+    echo '         type=transport'  >> /etc/ipsec.conf
+    echo '         authby=secret'  >> /etc/ipsec.conf
+    echo '         pfs=no'  >> /etc/ipsec.conf
+    echo '         rekey=no'  >> /etc/ipsec.conf
+    echo '         keyingtries=2'  >> /etc/ipsec.conf
+    echo '         left=%any'  >> /etc/ipsec.conf
+    echo "         leftid=$ip_serv"  >> /etc/ipsec.conf
+    echo '         right=%any'  >> /etc/ipsec.conf
+    echo '         auto=add'  >> /etc/ipsec.conf
+    echo "Input secret key (PSK) -> "
+    read PSK
+    cp /etc/ipsec.secrets /etc/ipsec.secrets.old
+    echo "%any : PSK '$PSK'"
+    systemctl restart strongswan-starter
+    systemctl enable strongswan-starter
 }
 
 #ipforwarding
