@@ -50,23 +50,24 @@ iptables () {
 ipsec_install () {
     apt install strongswan -y
     cp /etc/ipsec.conf /etc/ipsec.conf.old
-    echo 'config setup' > /etc/ipsec.conf
-    echo '         charondebug="ike 2, knl 3, cfg 0, ike 1"'  >> /etc/ipsec.conf
-    echo '         uniqueids=no'  >> /etc/ipsec.conf
-    echo 'conn l2tp-vpn' >> /etc/ipsec.conf
-    echo '         type=transport'  >> /etc/ipsec.conf
-    echo '         authby=secret'  >> /etc/ipsec.conf
-    echo '         pfs=no'  >> /etc/ipsec.conf
-    echo '         rekey=no'  >> /etc/ipsec.conf
-    echo '         keyingtries=2'  >> /etc/ipsec.conf
-    echo '         left=%any'  >> /etc/ipsec.conf
-    echo "         leftid=$ip_serv"  >> /etc/ipsec.conf
-    echo '         right=%any'  >> /etc/ipsec.conf
-    echo '         auto=add'  >> /etc/ipsec.conf
-    echo "Input secret key (PSK) -> "
+    echo "config setup" > /etc/ipsec.conf
+    echo "  charondebug=\"ike 2, knl 3, cfg 0, ike 1\""  >> /etc/ipsec.conf
+    echo "  uniqueids=no"  >> /etc/ipsec.conf
+    echo "conn l2tp-vpn" >> /etc/ipsec.conf
+    echo "  type=transport"  >> /etc/ipsec.conf
+    echo "  authby=secret"  >> /etc/ipsec.conf
+    echo "  pfs=no"  >> /etc/ipsec.conf
+    echo "  rekey=no"  >> /etc/ipsec.conf
+    echo "  keyingtries=2"  >> /etc/ipsec.conf
+    echo "  left=%any"  >> /etc/ipsec.conf
+    echo "  leftid=$ip_serv"  >> /etc/ipsec.conf
+    echo "  right=%any"  >> /etc/ipsec.conf
+    echo "  auto=add"  >> /etc/ipsec.conf
+    echo ""
+    echo "Input secret key (PSK):"
     read PSK
     cp /etc/ipsec.secrets /etc/ipsec.secrets.old
-    echo "%any : PSK '$PSK'"
+    echo "%any : PSK \"$PSK\""
     systemctl restart strongswan-starter
     systemctl enable strongswan-starter
 }
@@ -78,6 +79,7 @@ l2tp_install () {
     echo "port = 1701" >> /etc/xl2tpd/xl2tpd.conf
     echo "auth file = /etc/ppp/chap-secrets" >> /etc/xl2tpd/xl2tpd.conf
     echo "access control = no" >> /etc/xl2tpd/xl2tpd.conf
+    echo ""
     echo "[lns default]" >> /etc/xl2tpd/xl2tpd.conf
     echo "exclusive = no" >> /etc/xl2tpd/xl2tpd.conf
     echo "ip range = 10.10.0.10-10.10.0.20" >> /etc/xl2tpd/xl2tpd.conf
@@ -114,11 +116,12 @@ ppp_install () {
 
 add_user () {
     cp /etc/ppp/chap-secrets /etc/ppp/chap-secrets.old
-    echo "Input LOGIN user VPN -> "
+    echo ""
+    echo "Input LOGIN user VPN:"
     read USER
-    echo "Input PASS user VPN -> "
+    echo "Input PASS user VPN:"
     read PASS
-    echo "'$USER' srvl2tp '$PASS' *" > /etc/ppp/chap-secrets
+    echo "\"$USER\" srvl2tp \"$PASS\" *" > /etc/ppp/chap-secrets
 }
 
 ipforwarding
