@@ -121,9 +121,9 @@ add_user () {
     echo "'$USER' srvl2tp '$PASS' *" > /etc/ppp/chap-secrets
 }
 
-#ipforwarding
-#iptables
-#ipsec_install
-#l2tp_install
-#ppp_install
-#add_user
+ipforwarding
+iptables
+ipsec_install
+l2tp_install
+ppp_install
+add_user
