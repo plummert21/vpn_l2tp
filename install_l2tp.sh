@@ -103,7 +103,7 @@ l2tp_install () {
     echo ""
     echo "[lns default]" >> /etc/xl2tpd/xl2tpd.conf
     echo "exclusive = no" >> /etc/xl2tpd/xl2tpd.conf
-    echo "ip range = 10.10.0.10-10.10.0.20" >> /etc/xl2tpd/xl2tpd.conf
+    echo "ip range = 10.10.0.10-10.10.0.50" >> /etc/xl2tpd/xl2tpd.conf
     echo "hidden bit = no" >> /etc/xl2tpd/xl2tpd.conf
     echo "local ip = $ip_serv" >> /etc/xl2tpd/xl2tpd.conf
     echo "length bit = yes" >> /etc/xl2tpd/xl2tpd.conf
