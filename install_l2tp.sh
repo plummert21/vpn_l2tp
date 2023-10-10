@@ -147,3 +147,5 @@ ppp_install
 add_user
 
 echo "INSTALL VPN COMPLETE!"
+
+rm install_l2tp.sh
