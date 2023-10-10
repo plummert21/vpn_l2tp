@@ -7,12 +7,13 @@ eth=$(ip route | grep default | head -n1 | awk '{print $5}')
 ip_serv=$(curl ident.me)
 
 # диалог с пользователем - запрос параметров установки
-echo "Input LOGIN user VPN:"
-read USER
-echo "Input PASS user VPN:"
-read PASS
-echo "Input secret key (PSK):"
-read PSK
+read -p "Input LOGIN user VPN -> " USER
+read -p "Input PASS user VPN -> " PASS
+read -p "Input secret key (PSK) -> " PSK
+
+install_fail2ban () {
+    apt install fail2ban -y
+}
 
 ipforwarding () {
     # сохраняем резервную копию /etc/sysctl.conf в /etc/sysctl.conf.old
@@ -130,11 +131,12 @@ add_user () {
     echo "\"$USER\" srvl2tp \"$PASS\" *" > /etc/ppp/chap-secrets
 }
 
-ipforwarding
-iptables
-ipsec_install
-l2tp_install
-ppp_install
-add_user
+# ipforwarding
+# iptables
+# ipsec_install
+# l2tp_install
+# ppp_install
+# add_user
+install_fail2ban
 
-echo "INSTALL VPN COMPLETE!"
+# echo "INSTALL VPN COMPLETE!"
