@@ -61,7 +61,7 @@ iptables () {
     echo "[Service]" >> /etc/systemd/system/ipt.service
     echo "Type=notify" >> /etc/systemd/system/ipt.service
     echo "ExecStart=/etc/iptables.rules" >> /etc/systemd/system/ipt.service
-    echo "ExecReload=/bin/kill -HUP $MAINPID" >> /etc/systemd/system/ipt.service
+    echo "ExecReload=/bin/kill -HUP \$MAINPID" >> /etc/systemd/system/ipt.service
     echo "KillMode=process" >> /etc/systemd/system/ipt.service
     echo "Restart=on-failure" >> /etc/systemd/system/ipt.service
     echo ""
