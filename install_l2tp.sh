@@ -13,6 +13,13 @@ read -p "Input secret key (PSK) -> " PSK
 
 install_fail2ban () {
     apt install fail2ban -y
+    sed -i 's/^\# \[DEFAULT\]$/\[DEFAULT\]/' /etc/fail2ban/jail.conf
+    sed -i 's/^\# bantime = 1h$/bantime = -1/' /etc/fail2ban/jail.conf
+    sed -i 's/^\# \[sshd\]$/\[sshd\]/' /etc/fail2ban/jail.conf
+    sed -i 's/^\# enabled = true$/enabled = true/' /etc/fail2ban/jail.conf
+    sed -i 's/^bantime  = 10m$/bantime  = -1/' /etc/fail2ban/jail.conf
+    sed -i 's/^findtime  = 10m$/findtime  = 30m/' /etc/fail2ban/jail.conf
+    sed -i 's/^maxretry = 5$/maxretry = 3/' /etc/fail2ban/jail.conf
 }
 
 ipforwarding () {
@@ -131,12 +138,12 @@ add_user () {
     echo "\"$USER\" srvl2tp \"$PASS\" *" > /etc/ppp/chap-secrets
 }
 
-# ipforwarding
-# iptables
-# ipsec_install
-# l2tp_install
-# ppp_install
-# add_user
 install_fail2ban
+ipforwarding
+iptables
+ipsec_install
+l2tp_install
+ppp_install
+add_user
 
-# echo "INSTALL VPN COMPLETE!"
+echo "INSTALL VPN COMPLETE!"
