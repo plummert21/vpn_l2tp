@@ -6,6 +6,14 @@ eth=$(ip route | grep default | head -n1 | awk '{print $5}')
 # узнаем ip адрес сервера и записываем в переменную ip_serv
 ip_serv=$(curl ident.me)
 
+# диалог с пользователем - запрос параметров установки
+echo "Input LOGIN user VPN:"
+read USER
+echo "Input PASS user VPN:"
+read PASS
+echo "Input secret key (PSK):"
+read PSK
+
 ipforwarding () {
     # сохраняем резервную копию /etc/sysctl.conf в /etc/sysctl.conf.old
     cp /etc/sysctl.conf /etc/sysctl.conf.old
@@ -69,9 +77,6 @@ ipsec_install () {
     echo "        leftid=$ip_serv"  >> /etc/ipsec.conf
     echo "        right=%any"  >> /etc/ipsec.conf
     echo "        auto=add"  >> /etc/ipsec.conf
-    echo ""
-    echo "Input secret key (PSK):"
-    read PSK
     cp /etc/ipsec.secrets /etc/ipsec.secrets.old
     echo "%any : PSK \"$PSK\"" > /etc/ipsec.secrets
     systemctl restart strongswan-starter
@@ -122,11 +127,6 @@ ppp_install () {
 
 add_user () {
     cp /etc/ppp/chap-secrets /etc/ppp/chap-secrets.old
-    echo ""
-    echo "Input LOGIN user VPN:"
-    read USER
-    echo "Input PASS user VPN:"
-    read PASS
     echo "\"$USER\" srvl2tp \"$PASS\" *" > /etc/ppp/chap-secrets
 }
 
@@ -136,3 +136,5 @@ ipsec_install
 l2tp_install
 ppp_install
 add_user
+
+echo "INSTALL VPN COMPLETE!"
