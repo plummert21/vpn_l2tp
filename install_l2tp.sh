@@ -67,7 +67,7 @@ ipsec_install () {
     echo "Input secret key (PSK):"
     read PSK
     cp /etc/ipsec.secrets /etc/ipsec.secrets.old
-    echo "%any : PSK \"$PSK\""
+    echo "%any : PSK \"$PSK\"" > /etc/ipsec.secrets
     systemctl restart strongswan-starter
     systemctl enable strongswan-starter
 }
