@@ -51,6 +51,7 @@ iptables () {
     echo "iptables -A INPUT -i $eth -p 50 -j ACCEPT" >> /etc/iptables.rules
     echo "iptables -A INPUT -i $eth -p 51 -j ACCEPT" >> /etc/iptables.rules
     echo "iptables -A INPUT -i $eth -p udp -m policy --dir in --pol ipsec -m udp --dport 1701 -j ACCEPT" >> /etc/iptables.rules
+    echo "iptables -A INPUT -p icmp --icmp-type 8 -j DROP" >> /etc/iptables.rules
     echo "iptables -A INPUT -i $eth -j DROP" >> /etc/iptables.rules
     chmod +x /etc/iptables.rules
     # создание службы iptables для автоматического запсука
