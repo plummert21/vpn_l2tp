@@ -93,6 +93,11 @@ ipsec_install () {
     echo "        leftid=$ip_serv"  >> /etc/ipsec.conf
     echo "        right=%any"  >> /etc/ipsec.conf
     echo "        auto=add"  >> /etc/ipsec.conf
+
+    echo "        eap_identity=%identity"  >> /etc/ipsec.conf
+    echo "        ike=chacha20poly1305-sha512-curve25519-prfsha512,aes256gcm16-sha384-prfsha384-ecp384,aes256-sha1-modp1024,aes128-sha1-modp1024,3des-sha1-modp1024!"  >> /etc/ipsec.conf
+    echo "        esp=chacha20poly1305-sha512,aes256gcm16-ecp384,aes256-sha256,aes256-sha1,3des-sha1!"  >> /etc/ipsec.conf
+    
     cp /etc/ipsec.secrets /etc/ipsec.secrets.old
     echo "%any : PSK \"$PSK\"" > /etc/ipsec.secrets
     systemctl restart strongswan-starter
