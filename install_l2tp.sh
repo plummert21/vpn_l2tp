@@ -121,14 +121,14 @@ l2tp_install () {
 ppp_install () {
     echo "noccp" > /etc/ppp/options.xl2tpd
     echo "auth" >> /etc/ppp/options.xl2tpd
-    echo "mtu 1500" >> /etc/ppp/options.xl2tpd
-    echo "mru 1500" >> /etc/ppp/options.xl2tpd
+    echo "mtu 1410" >> /etc/ppp/options.xl2tpd
+    echo "mru 1410" >> /etc/ppp/options.xl2tpd
     echo "nodefaultroute" >> /etc/ppp/options.xl2tpd
     echo "noproxyarp" >> /etc/ppp/options.xl2tpd
     echo "silent" >> /etc/ppp/options.xl2tpd
     echo "asyncmap 0" >> /etc/ppp/options.xl2tpd
     echo "hide-password" >> /etc/ppp/options.xl2tpd
-    echo "require-mschap" >> /etc/ppp/options.xl2tpd
+    echo "require-mschap-v2" >> /etc/ppp/options.xl2tpd
     echo "ms-dns 8.8.8.8" >> /etc/ppp/options.xl2tpd
     echo "ms-dns 8.8.4.4" >> /etc/ppp/options.xl2tpd
     mkdir /var/log/xl2tpd
