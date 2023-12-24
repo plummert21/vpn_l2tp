@@ -76,7 +76,7 @@ ipsec_install () {
     apt install strongswan -y
     cp /etc/ipsec.conf /etc/ipsec.conf.old
     echo "config setup" > /etc/ipsec.conf
-    echo "        charondebug="all"  >> /etc/ipsec.conf
+    echo "        charondebug=\"ike 2, knl 3, cfg 0, ike 1\""  >> /etc/ipsec.conf
     echo "        uniqueids=no"  >> /etc/ipsec.conf
     echo "conn l2tp-vpn" >> /etc/ipsec.conf
     echo "        type=transport"  >> /etc/ipsec.conf
