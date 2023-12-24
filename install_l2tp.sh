@@ -50,9 +50,14 @@ iptables () {
     echo "iptables -A INPUT -i $eth -p udp --dport 4500 -j ACCEPT" >> /etc/iptables.rules
     echo "iptables -A INPUT -i $eth -p 50 -j ACCEPT" >> /etc/iptables.rules
     echo "iptables -A INPUT -i $eth -p 51 -j ACCEPT" >> /etc/iptables.rules
+    echo "#FOR OUTLINE" >> /etc/iptables.rules
+    echo "iptables -A INPUT -i ens1 -p 5461 -j ACCEPT" >> /etc/iptables.rules
+    echo "iptables -A INPUT -i ens1 -p 57768 -j ACCEPT" >> /etc/iptables.rules
+    echo "iptables -A INPUT -i ens1 -p udp --dport 57768 -j ACCEPT" >> /etc/iptables.rules
+    echo "#--END--FOR OUTLINE" >> /etc/iptables.rules
     echo "iptables -A INPUT -i $eth -p udp -m policy --dir in --pol ipsec -m udp --dport 1701 -j ACCEPT" >> /etc/iptables.rules
     echo "iptables -A INPUT -p icmp --icmp-type 8 -j DROP" >> /etc/iptables.rules
-    echo "iptables -A INPUT -i $eth -j DROP" >> /etc/iptables.rules
+    echo "#iptables -A INPUT -i $eth -j DROP" >> /etc/iptables.rules
     chmod +x /etc/iptables.rules
     # создание службы iptables для автоматического запсука
     echo "[Unit]" > /etc/systemd/system/ipt.service
